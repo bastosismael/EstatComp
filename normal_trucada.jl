@@ -24,3 +24,10 @@ function g₃(x, μ, σ)
     return x>=μ * r
 end
 
+#4
+
+function g₄(x, μ, σ)
+    α = (sqrt(μ^2 + 4σ^2) - μ)/2σ^2
+    return α*exp(-α*x) * x >=0
+end
+
