@@ -4,6 +4,7 @@
 
 using Distributions
 using SpecialFunctions
+using BenchmarkTools
 
 # Objective
 
@@ -49,7 +50,7 @@ end
 # SOme distributions are paremtrized by μ even this parameter not been used. THis was kmade just to simplify the call of the function
 M₁(μ, σ) = sqrt(2π*σ^2)/C(μ, σ)
 M₂(μ, σ) = (μ + sqrt(π*σ^2/2))/C(μ, σ)
-M₃(μ, σ) = sqrt(2π*σ^2)/2*C(μ, σ)
+M₃(μ, σ) = sqrt(2π*σ^2)/(2*C(μ, σ))
 function M₄(μ, σ)
     α₁ = α(μ, σ)
     r =  exp((α₁/2) * (2μ + α₁*σ^2) ) / (α₁ * C(μ, σ))
@@ -92,7 +93,7 @@ end
 # 4
 function s₄(μ, σ)
     u = rand(Uniform(0,1), 1)[1]
-    x = -log(1-μ)/α(μ, σ)
+    x = -log(1-u)/α(μ, σ)
     return x
 end
 
@@ -124,7 +125,8 @@ function generate_n(n, f, μ, σ)
     return(values, tries)
 end
 
-n = 100000
-v, t = generate_n(n, 2, 0, 1)
+n = 10000000
+# @btime generate_n(n, 1, 0, 1)
+v, t = generate_n(n, 4, 0, 1)
 println("Taxa de Aceitacao Experimental: ", n/t)
 
